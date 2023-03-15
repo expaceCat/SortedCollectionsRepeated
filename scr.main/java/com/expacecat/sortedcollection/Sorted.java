@@ -6,45 +6,47 @@ import java.util.List;
 public class Sorted {
 
 
-    public List<Integer> getSortingRepeated(List<Integer> firstList, List<Integer> secondList) {
-        List<Integer> sortedArray = new ArrayList<>();
-        int[] result = getSortedArray(getSortedAscendingArray(getArray(firstList)),getSortedAscendingArray(getArray(secondList)));
+    public List<Integer> getSortingFinishList(List<Integer> firstList, List<Integer> secondList) {
+       List<Integer> sortedArray = new ArrayList<>();
+       int[] result = getSortedArray(getSortedAscendingArray(getArray(firstList)),getSortedAscendingArray(getArray(secondList)));
 
-        for (int j : result) {
+       for (int j : result) {
             sortedArray.add(j);
-        }
+       }
         return sortedArray;
     }
 
-    private int[] getSortedArray(int[] first, int[] second) {
-        int[] result = new int[first.length];
-        int countOfResult = 0; // номер ячейки массива result
-        int countOfJ = 0; // значение ячейки массива
-        int memory = first[0];
+    public int[] getSortedArray(int[] firstArray, int[] secondArray) {
 
-        for (int i = 0; i < first.length; i++) {
-            for (int j = countOfJ; j < second.length; j++) {
-                if(first[i] == memory) { // если значение равно значению положенному в result;
-                    if(first[i] == second[j]) { // если значения равны, то пропускаем эти позиции
-                        countOfJ++; // увеличиваем минимальное значение j, чтобы уменьшать количество проходимых сравнений
+        int[] result = new int[firstArray.length];
+        int indexOfResult = 0; // номер ячейки массива result
+        int indexOfJ = 0; // значение ячейки массива
+        int memory = firstArray[0];
+
+        for (int value : firstArray) {
+            for (int j = indexOfJ; j < secondArray.length; j++) {
+                if (value == memory) { // если значение равно значению положенному в result;
+                    if (value == secondArray[j]) { // если значения равны, то пропускаем эти позиции
+                        indexOfJ++; // увеличиваем минимальное значение j, чтобы уменьшать количество проходимых сравнений
                         break;
                     }
                 }
-                if(first[i] == second[j]) { // если значения массива равны
-                    result[countOfResult] = first[i]; // то записываем результат массив result
-                    countOfResult++; // увеличиваем
-                    countOfJ++; // увеличиваем, поскольку следующая
-                    memory = first[i]; //присваиваем memory последнее значение
+                if (value == secondArray[j]) { // если значения массива равны
+                    result[indexOfResult] = value; // то записываем результат массив result
+                    indexOfResult++; // увеличиваем
+                    indexOfJ++; // увеличиваем
+                    memory = value; //присваиваем memory последнее значение
                     break;
                 }
-                if(first[i] > second[j]) {
-                    countOfJ++;
-                } if (first[i] < second[j]) {
+                if (value > secondArray[j]) {
+                    indexOfJ++;
+                }
+                if (value < secondArray[j]) {
                     break;
                 }
             }
         }
-        return cellCountSort(result, countOfResult);
+        return cellCountSort(result, indexOfResult);
     }
 
     private int[] getSortedAscendingArray(int[] first) { //получаем сортированный массив, сортировка пузырьком.
@@ -62,25 +64,22 @@ public class Sorted {
             }
             stepsCount--;
         } while (swapped);
-
         return first;
     }
 
     private int[] cellCountSort(int[] i, int count) { // Приводим массив в нужный размер, удаляем все лишнее
         int[] result = new int[count];
-        for (int k = 0; k < result.length; k++) {
-            result[k] = i[k];
-        }
+        System.arraycopy(i, 0, result, 0, result.length);
         return result; //на выход получается массив c точным количеством ячеек
     }
 
 
-    private int[] getArray(List<Integer> list) {
-        int[] arr = new int[list.size()];
-        for(int i = 0; i < arr.length; i ++) {
-            arr[i] = list.get(i);
+    public int[] getArray(List<Integer> list) {
+        int[] array = new int[list.size()];
+        for(int i = 0; i < array.length; i ++) {
+            array[i] = list.get(i);
         }
-        return arr;
+        return array;
     }
 
 }
